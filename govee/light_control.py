@@ -46,7 +46,7 @@ async def keep_alive_loop(client):
             break
 
 
-async def handle_websocket(websocket, path, client):
+async def handle_websocket(websocket, client):
     print(f"WebSocket client connected: {websocket.remote_address}")
     try:
         async for message in websocket:
@@ -86,7 +86,7 @@ async def handle_websocket(websocket, path, client):
 
 async def websocket_server(client, host="0.0.0.0", port=8765):
     server = await websockets.serve(
-        lambda ws, path: handle_websocket(ws, path, client), host, port
+        lambda ws: handle_websocket(ws, client), host, port
     )
     print(f"WebSocket server running on ws://{host}:{port}")
     await server.wait_closed()
